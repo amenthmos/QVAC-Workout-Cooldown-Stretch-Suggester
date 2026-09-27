@@ -27,7 +27,12 @@ function parseStretches(text) {
     }
   }
   if (stretches.length === 0) {
-    const bySentence = text.split(/(?<=[.!])\s+/).map((s) => s.trim()).filter((s) => s.length > 5);
+    // Strip any stray leading bullet/number the split missed, so a
+    // malformed list line doesn't leak a "2." prefix into the stretch text.
+    const bySentence = text
+      .split(/(?<=[.!])\s+/)
+      .map((s) => s.trim().replace(/^(?:\d+[.)]|-|\*)\s*/, ""))
+      .filter((s) => s.length > 5);
     stretches.push(...bySentence);
   }
   return stretches;
