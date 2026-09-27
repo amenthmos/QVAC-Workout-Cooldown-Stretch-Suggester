@@ -64,6 +64,20 @@ export async function generate(modelId, workoutType) {
           "3. Standing calf stretch against a wall — hold 20-30 seconds each side.\n" +
           "4. Deep lunge hip flexor stretch — sink into a lunge and push your hips forward, hold 30 seconds each side.",
       },
+      // A second, targeted example: without this, the model consistently
+      // defaulted "running" to ankle/foot-focused drills instead of the
+      // quads/hamstrings/calves that actually matter after a run — a
+      // repeatable gap, not one-off noise, confirmed by retesting the same
+      // input multiple times.
+      { role: "user", content: "Workout: running" },
+      {
+        role: "assistant",
+        content:
+          "1. Standing quad stretch — pull one heel toward your glutes, hold 30 seconds each side.\n" +
+          "2. Standing hamstring stretch — extend one leg out with heel down, hinge forward at the hips, hold 30 seconds each side.\n" +
+          "3. Calf stretch against a wall — back leg straight, heel flat, lean forward, hold 30 seconds each side.\n" +
+          "4. Hip flexor lunge stretch — sink into a lunge and push your hips forward, hold 30 seconds each side.",
+      },
       { role: "user", content: `Workout: ${workoutType}` },
     ],
     stream: true,
